@@ -6,22 +6,8 @@ from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
 import usb_hid
 from collections import OrderedDict
-from board import *
-
-import board
-import digitalio
-
-noStorage = False
-noStoragePin = digitalio.DigitalInOut(GP15)
-noStoragePin.switch_to_input(pull=digitalio.Pull.UP)
-noStorage = noStoragePin.value
 
 time.sleep(3)
-
-while noStorage == False:
-    noStorage = noStoragePin.value
-    print("shorted GP15, not continuing")
-    time.sleep(1)
 
 keys = OrderedDict([
     ('A', Keycode.A), ('B', Keycode.B), ('C', Keycode.C), ('D', Keycode.D),
@@ -153,9 +139,8 @@ def index(request):
 
 if __name__ == "__main__":
     start_wifi()
-    time.sleep(1)
     start_server()
-    while running:
+    while True:
         try:
             server.update_poll()
             time.sleep(0.01)
